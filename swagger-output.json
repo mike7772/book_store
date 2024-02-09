@@ -1,0 +1,337 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Book Store API",
+    "description": "Description",
+    "version": "1.0.0"
+  },
+  "host": "localhost:4000",
+  "basePath": "/api/",
+  "schemes": ["http"],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "scheme": "bearer",
+      "in": "header"
+    }
+  },
+  "paths": {
+    "/user/": {
+      "post": {
+        "description": "Register new user",
+        "tags": ["Auth"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User credentials",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
+                  "type": "string"
+                },
+                "userName": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "phoneNumber": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "firstName",
+                "lastName",
+                "email",
+                "phoneNumber",
+                "userName",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/user/login/": {
+      "post": {
+        "description": "User login",
+        "tags": ["Auth"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User credentials",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userName": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              },
+              "required": ["userName", "password"]
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/book/": {
+      "post": {
+        "description": "Register new user",
+        "tags": ["Book"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Book Details",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "writer": {
+                  "type": "string"
+                },
+                "coverImage": {
+                  "type": "string"
+                },
+                "point": {
+                  "type": "number"
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": ["title", "writer", "coverImage", "point", "tags"]
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/book/list/": {
+      "post": {
+        "description": "Search books",
+        "tags": ["Book"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Book Details",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string"
+                },
+                "writer": {
+                  "type": "string"
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/book/bulk/": {
+      "post": {
+        "description": "Add Multiple books",
+        "tags": ["Book"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Book Details",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "writer": {
+                    "type": "string"
+                  },
+                  "point": {
+                    "type": "number"
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": ["title", "writer", "point", "tags"]
+              }
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/book/tags/": {
+      "get": {
+        "description": "Get list of tags",
+        "tags": ["Book"],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/order/": {
+      "post": {
+        "description": "Create new order",
+        "tags": ["Order"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Order Details",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "number"
+                },
+                "bookId": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "quantity": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              },
+              "required": ["userId", "bookId", "quantity"]
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/order/list/{id}/{type}": {
+      "get": {
+        "description": "List Orders",
+        "tags": ["Order"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "User ID",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "in": "path",
+            "name": "type",
+            "description": "Order Type",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/order/cancel/{id}": {
+      "get": {
+        "description": "Cancel Orders",
+        "tags": ["Order"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "Order ID",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    }
+  }
+}
