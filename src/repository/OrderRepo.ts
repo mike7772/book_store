@@ -100,12 +100,18 @@ class OrderRepo {
   cancelOrder = async (data: number) => {
     const ToBeUpdatedOrder = await this.orderRepository.findOne({
       where: { id: data },
+      relations: ["user"],
     });
+    const getUser =
+      ToBeUpdatedOrder &&
+      (await this.userRepository.findOne({
+        where: { id: ToBeUpdatedOrder.user.id },
+      }));
 
-    console.log("first");
-
-    if (ToBeUpdatedOrder.status == "pending") {
+    if (getUser && ToBeUpdatedOrder.status == "completed") {
       ToBeUpdatedOrder.status = "canceled";
+      getUser.point = getUser.point + ToBeUpdatedOrder.totalPoint;
+      this.userRepository.save(getUser);
       return this.orderRepository.save(ToBeUpdatedOrder);
     }
 

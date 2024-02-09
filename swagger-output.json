@@ -276,6 +276,51 @@
         }
       }
     },
+    "/order/complete": {
+      "post": {
+        "description": "Create new order",
+        "tags": ["Order"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Order Details",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "userId": {
+                  "type": "number"
+                },
+                "bookId": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                },
+                "quantity": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              },
+              "required": ["userId", "bookId", "quantity"]
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/order/list/{id}/{type}": {
       "get": {
         "description": "List Orders",
