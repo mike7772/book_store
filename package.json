@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "npm run transpile && node server.ts",
+    "start": "npm run transpile && nodemon server.ts",
     "dev": "concurrently \"npm:watch\" \"npm:serve\"",
     "serve": "nodemon server.ts",
     "watch": "npx tsc -w",

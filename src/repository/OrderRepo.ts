@@ -26,7 +26,7 @@ class OrderRepo {
       relations: ["book"],
     });
 
-    if (getBook && CheckOrder && CheckOrder.status == "cart") {
+    if (getBook && CheckOrder && CheckOrder.status == "pending") {
       getBook.map((book: Book, index: number) => {
         const getIndex = CheckOrder.book.findIndex((obj) => {
           return obj.id === book.id;
@@ -49,7 +49,7 @@ class OrderRepo {
         book: getBook,
         user: getUser,
         quantity: data.quantity,
-        status: "cart",
+        status: "pending",
         totalPoint: 0,
       });
       return this.orderRepository.save(order);
@@ -82,10 +82,13 @@ class OrderRepo {
         return false;
       }
 
+      getUser.point = getUser.point - totalPoint;
+      this.userRepository.save(getUser);
+
       CheckOrder.book = getBook;
       CheckOrder.user = getUser;
       CheckOrder.quantity = data.quantity;
-      CheckOrder.status = "pending";
+      CheckOrder.status = "completed";
       CheckOrder.totalPoint = totalPoint;
 
       return this.orderRepository.save(CheckOrder);
@@ -101,7 +104,7 @@ class OrderRepo {
 
     console.log("first");
 
-    if (ToBeUpdatedOrder.status == "cart") {
+    if (ToBeUpdatedOrder.status == "pending") {
       ToBeUpdatedOrder.status = "canceled";
       return this.orderRepository.save(ToBeUpdatedOrder);
     }
