@@ -49,7 +49,7 @@ class BookRepo {
     return { status: true };
   };
 
-  ListBook = async (data: ListBook) => {
+  ListBook = async (data: ListBook, pageNumber: number, pageSize: number) => {
     const queryBuilder = this.bookRepository.createQueryBuilder("Book");
 
     if (data.title) {
@@ -62,17 +62,14 @@ class BookRepo {
         writer: `%${data.writer}%`,
       });
     }
-    if (data.point !== undefined) {
-      queryBuilder.andWhere("Book.point >= :point", { point: data.point });
-    }
-    // if (maxPoint !== undefined) {
-    //   queryBuilder.andWhere("Book.point <= :maxPoint", { maxPoint });
-    // }
+
     if (data.tags && data.tags.length > 0) {
       queryBuilder.andWhere("Book.tags @> ARRAY[:...tags]", {
         tags: data.tags,
       });
     }
+
+    queryBuilder.skip((pageNumber - 1) * pageSize).take(pageSize);
 
     return await queryBuilder.getMany();
   };

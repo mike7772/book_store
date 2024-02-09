@@ -141,11 +141,19 @@
         }
       }
     },
-    "/book/list/": {
+    "/book/list": {
       "post": {
         "description": "Search books",
         "tags": ["Book"],
         "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "optional parameter for infinite scroll",
+            "schema": {
+              "type": "number"
+            }
+          },
           {
             "in": "body",
             "name": "body",

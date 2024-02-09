@@ -54,7 +54,8 @@ export default class BookService {
   };
 
   ListBook = async (req: Request, res: Response, next: NextFunction) => {
-    BookRepo.ListBook(req.body)
+    const { page } = req.query;
+    BookRepo.ListBook(req.body, Number(page), 10)
       .then((value) => {
         if (value) {
           return res.status(200).json({
