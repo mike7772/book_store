@@ -69,6 +69,11 @@ class BookRepo {
       });
     }
 
+    // const total = await this.bookRepository.count();
+    // if (total <= pageNumber * pageSize) {
+    //   return false;
+    // }
+
     queryBuilder.skip((pageNumber - 1) * pageSize).take(pageSize);
 
     return await queryBuilder.getMany();

@@ -65,7 +65,7 @@ export default class BookService {
         }
         res.status(401).json({
           success: false,
-          errors: ["Unable to Search books."],
+          errors: ["Out of records."],
         });
       })
       .catch((err) => {
